@@ -3,6 +3,11 @@
   "version": "0.0.1",
   "description": "Device detection (phone, tablet, desktop)",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "github.com/rouabhi/devicize"
+  },
+  "homepage": "http://hgoebl.github.io/mobile-detect.js/",
   "keywords": [
     "useragent",
     "mobile",
@@ -15,7 +20,8 @@
     "name": "Samir ROUABHI",
     "email": "rouabhi@gmail.com"
   },
-  "license": "MIT",
+  "license": "GNU GPL v2",
+  "readmeFilename": "README.md",
   "dependencies": {
     "mobile-detect": "0.4.0"
   }
