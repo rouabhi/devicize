@@ -1,0 +1,22 @@
+{
+  "name": "devicize",
+  "version": "0.0.1",
+  "description": "Device detection (phone, tablet, desktop)",
+  "main": "index.js",
+  "keywords": [
+    "useragent",
+    "mobile",
+    "phone",
+    "tablet",
+    "detect",
+    "device"
+  ],
+  "author": {
+    "name": "Samir ROUABHI",
+    "email": "rouabhi@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "mobile-detect": "0.4.0"
+  }
+}
