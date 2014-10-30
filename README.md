@@ -25,3 +25,10 @@ function showDeviceSize(req,res){
   console.log("Devicize : " , require("devicize")(req , { "M":"/mobile" , "T":"/tablet" }));
 
 }
+
+
+An other possiblity is a promise-like syntax :
+
+ require("devicize")(req , { "promise" : true } ).phone( itsPhone ).tablet( itsTablet ).desktop( itsDesktop );
+
+ require("devicize")(req , { "promise" : true } ).desktop( itsDesktop ).otherwise( itsNotDesktop );
