@@ -1,7 +1,7 @@
 {
   "name": "devicize",
-  "version": "0.0.3",
-  "description": "Device detection (phone, tablet, desktop)",
+  "version": "0.0.4",
+  "description": "Device detection (phone, tablet, desktop) and middleware",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -13,7 +13,8 @@
     "phone",
     "tablet",
     "detect",
-    "device"
+    "device",
+    "middleware"
   ],
   "author": {
     "name": "Samir ROUABHI",
