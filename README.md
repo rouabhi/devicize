@@ -12,7 +12,7 @@ app.use( express.session({secret:'mySecretKeyz'}));
 The module can be used in many ways, listed below.
 
 ## Simple syntax ##
-The simplest way to use it is to get a different string depending on the defice type. For example:
+The simplest way to use it is to get a different string depending on the device type. For example:
 
 ```javascript
 app.get( '/size', showDeviceSize );
@@ -37,7 +37,7 @@ require("devicize")(req , { "promise" : true } ).desktop( itsDesktop ).otherwise
 ```
 
 ## Middleware ##
-The most interesting use of the module is as a **middleware** to serve different static code depending on the device type:
+The most interesting use of the module is as a **middleware** to serve different files depending on the device type:
 
 ```javascript
 function renderJade(req, res, filename){
@@ -45,13 +45,18 @@ function renderJade(req, res, filename){
     require("jade").renderFile(filename , function(err,html){if (err) {res.send(500);} else {res.send(200,html);}});
 }
 
+function page404(req, res, filename){
+    res.send(404);
+}
+
 app.use( devicize.static({
      src:"/public",
      D:"desktop/", T:"tablet/", P:"phone/" ,
      ".htm":renderJade,
-     ".jade":new Function()
+     ".jade":page404
     }) );
 ```
 
-The code above permits to serve static files `/public/...` fom different directories.
-In addition, the *url* with `.htm` extension is served from a `.Jade` compiled file and `.jade` files are excluded from visualisation.
+The code above permits to serve static files fom different directories when *url* starting with `/public/...`.
+
+In addition, the *url* with `.htm` extension is served from a `.jade` compiled file and `.jade` files are excluded from visualisation.
