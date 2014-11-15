@@ -3,13 +3,16 @@
 **devicize** is a *node.js* package that analyses the user agent of the browser and gives information about device type (desktop, tablet or phone).
 
 ## Using sessions ##
-When you are using express.session middleware, the information about device is stored as a session variable to avoid re-analyzing the user agent and lose precious machine cycles, which make it suitable for big multi-device applications.
+If you are using express-session middleware, the information about device is stored as a session variable to avoid re-analyzing the user agent and lose precious machine cycles, which make it suitable for big multi-device applications.
 
 ```javascript
-app.use( express.cookieParser() );
-app.use( express.session({secret:'mySecretKeyz'}));
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+
+app.use( cookieParser() );
+app.use( session({secret:'mySecretKeyz',resave:false,saveUninitialized:true}))
 ```
-The module can be used in many ways, listed below.
+The **devicize** package can be used in many ways, listed below.
 
 ## Simple syntax ##
 The simplest way to use it is to get a different string depending on the device type. For example:
@@ -37,7 +40,7 @@ require("devicize")(req , { "promise" : true } ).desktop( itsDesktop ).otherwise
 ```
 
 ## Middleware ##
-The most interesting use of the module is as a **middleware** to serve different files depending on the device type:
+The most interesting use of the package is as a **middleware** to serve different files depending on the device type:
 
 ```javascript
 function renderJade(req, res, filename){

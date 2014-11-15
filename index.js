@@ -24,13 +24,6 @@ function devicize( req , options ){
 	 else return options[device] || "";
 	}
 
-function sendFile( req, res, filename ){
-	var onError = new Function();
-
-	res.sendfile(filename, function(err){if (err) onError(err);});
-	return {error:function(e){onError=e;}};
-}
-
 devicize.static = function(options){
 	var extensions = [], handlers = {};
 	var src = options.src;
@@ -38,6 +31,13 @@ devicize.static = function(options){
 	src = src + (src.slice(-1)=="/" ? "":"/" );
 	for(var e in options) {
 		if (e.match(/\.\w+$/)) {extensions.push(e); handlers[e] = options[e];}
+	}
+
+	function sendFile( req, res, filename ){
+		var onError = new Function();
+
+		res.sendFile(filename, {root:require("path").join(__dirname,"../../")},function(err){if (err) onError(err);});
+		return {error:function(e){onError=e;}};
 	}
 
    return function(req, res, next){

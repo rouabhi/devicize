@@ -1,6 +1,6 @@
 {
   "name": "devicize",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Device detection (phone, tablet, desktop) and middleware",
   "main": "index.js",
   "repository": {
