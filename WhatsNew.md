@@ -1,5 +1,8 @@
 #devicize - What's new#
 
+## v 0.1.0  ##
+We added dest option and added "varsession" dependency to handle session variables with this package. We now ensure full Express 4 compliance.
+
 ## v 0.0.5 Express 4 compatibility fix ##
 **devicize** is now compatible with ExpressJs v4 and produce no warnings about depricated syntax.
 
