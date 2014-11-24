@@ -1,6 +1,6 @@
 {
   "name": "devicize",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Device detection (phone, tablet, desktop) and middleware",
   "main": "index.js",
   "repository": {
@@ -23,6 +23,7 @@
   "license": "GNU GPL v2",
   "readmeFilename": "README.md",
   "dependencies": {
-    "mobile-detect": "0.4.0"
+    "mobile-detect":"*",
+    "varsession":"*"
   }
 }

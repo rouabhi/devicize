@@ -1,3 +1,5 @@
+var varSession = require("varsession");
+
 function getPromise( device ){
 	var found = false;
 	return {
@@ -9,17 +11,20 @@ function getPromise( device ){
 }
 
 function devicize( req , options ){
-	 var device;
+	 var device,
+	 	 varsession = varSession(req), 
+	 	 stored = varsession.get("devicize");
 
-	 options = options || {"M":"M", "T":"T", "D":"D"};
-	 if (!req.session || !req.session["devicize"]) {
+	 options = options || {"P":"P", "T":"T", "D":"D"};
+	 if (stored) {
+	 	device = stored;
+	 }
+	 else {
 		var MobileDetect = require('mobile-detect');
 		var md = new MobileDetect(req.headers['user-agent']);
 		device = md.phone() ? "P" : (md.tablet() ? "T":"D")
-
-		if (req.session) req.session["devicize"] = device;
+		varsession.set("devicize",device);
 	 }
-	 else device = req.session["devicize"]; 
 	 if (options.promise) return getPromise(device);
 	 else return options[device] || "";
 	}
@@ -35,24 +40,31 @@ devicize.static = function(options){
 
 	function sendFile( req, res, filename ){
 		var onError = new Function();
-
+		console.log("sendFile:",filename);
 		res.sendFile(filename, {root:require("path").join(__dirname,"../../")},function(err){if (err) onError(err);});
 		return {error:function(e){onError=e;}};
 	}
 
-   return function(req, res, next){
+	function middleware(req, res, next){
    	  if (req.url.indexOf(src) !== 0) next();
    	  else {
-   	  	 var filename = devicize(req , { "P": options.P||"_P/", "T":options.T||"_T/", "D":options.D || "_D/" }) + req.url.slice( src.length );
+   	  	 path = {};
+   	  	 var filename = devicize(req , { 
+   	  	 	 "P": (options.P || ((options.dst|| "")+"phone/")), 
+   	  	 	 "T": (options.T || ((options.dst|| "")+"tablet/")),
+   	  	 	 "D": (options.D || ((options.dst|| "")+"desktop/"))
+   	  	 	  }) + req.url.slice( src.length );
    	  	 var ext = filename.match(/\.\w+$/);
    	  	 if (ext && (extensions.indexOf(ext[0])>=0)) {
    	  	 	handlers[ ext[0] ](req, res, filename);
    	  	 }
    	  	 else {
-   	  	 	sendFile(req , res , filename ).error( function(){res.send(404);});
+   	  	 	sendFile(req , res , filename ).error( function(){res.status(404).end();});
    	  	 }
    	  	}
    }
+
+   return middleware;
 }
 
 module.exports = devicize;

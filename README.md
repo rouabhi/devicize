@@ -6,11 +6,9 @@
 If you are using express-session middleware, the information about device is stored as a session variable to avoid re-analyzing the user agent and lose precious machine cycles, which make it suitable for big multi-device applications.
 
 ```javascript
-var session = require('express-session');
-var cookieParser = require('cookie-parser');
+var expressSession = require('express-session');
 
-app.use( cookieParser() );
-app.use( session({secret:'mySecretKeyz',resave:false,saveUninitialized:true}))
+app.use( expressSession({secret:'mySecretKey', cookie: { maxAge: 60000 }, resave:false, saveUninitialized:true}) );
 ```
 The **devicize** package can be used in many ways, listed below.
 
@@ -53,13 +51,23 @@ function page404(req, res, filename){
 }
 
 app.use( devicize.static({
-     src:"/public",
-     D:"desktop/", T:"tablet/", P:"phone/" ,
+     src:"/pub/",
+     D:"/public/desktop/", T:"/public/tablet/", P:"/public/phone/" ,
      ".htm":renderJade,
      ".jade":page404
     }) );
 ```
 
-The code above permits to serve static files fom different directories when *url* starting with `/public/...`.
+The code above permits to serve static files fom different directories when *url* starting with `/pub/...`.
 
 In addition, the *url* with `.htm` extension is served from a `.jade` compiled file and `.jade` files are excluded from visualisation.
+
+The last command can also be written :
+```javascript
+app.use( devicize.static({
+     src:"/pub/",
+     dest:"/public/", 
+     ".htm":renderJade,
+     ".jade":page404
+    }) );
+```
