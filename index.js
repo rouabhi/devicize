@@ -50,9 +50,9 @@ devicize.static = function(options){
    	  else {
    	  	 path = {};
    	  	 var filename = devicize(req , { 
-   	  	 	 "P": (options.P || ((options.dst|| "")+"phone/")), 
-   	  	 	 "T": (options.T || ((options.dst|| "")+"tablet/")),
-   	  	 	 "D": (options.D || ((options.dst|| "")+"desktop/"))
+   	  	 	 "P": (options.P || ((options.dest|| "")+"phone/")), 
+   	  	 	 "T": (options.T || ((options.dest|| "")+"tablet/")),
+   	  	 	 "D": (options.D || ((options.dest|| "")+"desktop/"))
    	  	 	  }) + req.url.slice( src.length );
    	  	 var ext = filename.match(/\.\w+$/);
    	  	 if (ext && (extensions.indexOf(ext[0])>=0)) {
