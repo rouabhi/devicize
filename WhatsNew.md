@@ -1,5 +1,16 @@
 #devicize - What's new#
 
+## v 0.2.0  ##
+Old syntax deprecated. Now, middleware should be mounted on an url:
+
+```
+app.use( url , devicize.static( path , {options} ));
+```
+or
+```
+app.use( devicize.static(path, {options} ));
+```
+
 ## v 0.1.0  ##
 We added dest option and added "varsession" dependency to handle session variables with this package. We now ensure full Express 4 compliance.
 

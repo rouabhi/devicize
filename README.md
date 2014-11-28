@@ -50,24 +50,12 @@ function page404(req, res, filename){
     res.send(404);
 }
 
-app.use( devicize.static({
-     src:"/pub/",
-     D:"/public/desktop/", T:"/public/tablet/", P:"/public/phone/" ,
+app.use( "/pub", devicize.static( __dirname+"/public/",{
      ".htm":renderJade,
      ".jade":page404
     }) );
 ```
 
-The code above permits to serve static files fom different directories when *url* starting with `/pub/...`.
+The code above permits to serve static files fom different directories when *url* starting with `/pub/...` : files are served from `/public/desktop/`, `/public/tablet/` and `/public/phone/`.
 
 In addition, the *url* with `.htm` extension is served from a `.jade` compiled file and `.jade` files are excluded from visualisation.
-
-The last command can also be written :
-```javascript
-app.use( devicize.static({
-     src:"/pub/",
-     dest:"/public/", 
-     ".htm":renderJade,
-     ".jade":page404
-    }) );
-```

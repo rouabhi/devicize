@@ -29,31 +29,25 @@ function devicize( req , options ){
 	 else return options[device] || "";
 	}
 
-devicize.static = function(options){
+devicize.static = function(path, options){
 	var extensions = [], handlers = {};
-	var src = options.src;
-	src = (src.slice(0,1)=="/" ? "":"/" ) + src ;
-	src = src + (src.slice(-1)=="/" ? "":"/" );
+
+	if (typeof path == "object") {
+		console.log("Devicize: syntax deprecated. See new documentation.");
+		return new Function(); 
+	}
 	for(var e in options) {
 		if (e.match(/\.\w+$/)) {extensions.push(e); handlers[e] = options[e];}
 	}
 
 	function sendFile( req, res, filename ){
 		var onError = new Function();
-		console.log("sendFile:",filename);
-		res.sendFile(filename, {root:require("path").join(__dirname,"../../")},function(err){if (err) onError(err);});
+		res.sendFile(filename, {}, function(err){if (err) onError(err);});
 		return {error:function(e){onError=e;}};
 	}
 
 	function middleware(req, res, next){
-   	  if (req.url.indexOf(src) !== 0) next();
-   	  else {
-   	  	 path = {};
-   	  	 var filename = devicize(req , { 
-   	  	 	 "P": (options.P || ((options.dest|| "")+"phone/")), 
-   	  	 	 "T": (options.T || ((options.dest|| "")+"tablet/")),
-   	  	 	 "D": (options.D || ((options.dest|| "")+"desktop/"))
-   	  	 	  }) + req.url.slice( src.length );
+   	  	 var filename = require("path").join( path, devicize(req ,{"P": "/phone/", "T": "/tablet/", "D": "/desktop/"}), req.url );
    	  	 var ext = filename.match(/\.\w+$/);
    	  	 if (ext && (extensions.indexOf(ext[0])>=0)) {
    	  	 	handlers[ ext[0] ](req, res, filename);
@@ -61,7 +55,6 @@ devicize.static = function(options){
    	  	 else {
    	  	 	sendFile(req , res , filename ).error( function(){res.status(404).end();});
    	  	 }
-   	  	}
    }
 
    return middleware;
