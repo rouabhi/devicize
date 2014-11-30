@@ -47,7 +47,7 @@ devicize.static = function(path, options){
 	}
 
 	function middleware(req, res, next){
-   	  	 var filename = require("path").join( path, devicize(req ,{"P": "/phone/", "T": "/tablet/", "D": "/desktop/"}), req.url );
+   	  	 var filename = require("path").join( path, devicize(req ,{"P": "/phone/", "T": "/tablet/", "D": "/desktop/"}), req.path );
    	  	 var ext = filename.match(/\.\w+$/);
    	  	 if (ext && (extensions.indexOf(ext[0])>=0)) {
    	  	 	handlers[ ext[0] ](req, res, filename);
